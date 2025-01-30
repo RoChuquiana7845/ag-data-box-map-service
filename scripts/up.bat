@@ -1,0 +1,1 @@
+docker compose up ag_data_box_map_service
