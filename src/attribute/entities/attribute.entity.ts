@@ -27,6 +27,6 @@ export class Attribute {
   @Column()
   acronym_es: string;
 
-  @ManyToOne(() => UnitMeasure, { nullable: true })
-  unit: UnitMeasure;
+  @ManyToOne(() => UnitMeasure, { nullable: true, eager: true })
+  unit?: UnitMeasure;
 }

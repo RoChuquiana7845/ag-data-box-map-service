@@ -10,7 +10,7 @@ import { Classification } from 'src/classification/entities/classification.entit
 export class ClassificationLevelService {
   constructor(
     @InjectRepository(ClassificationLevel)
-    private classificationLevelRepository: Repository<ClassificationLevel>,
+    private readonly classificationLevelRepository: Repository<ClassificationLevel>,
   ) {}
 
   async findAll(): Promise<ClassificationLevel[]> {

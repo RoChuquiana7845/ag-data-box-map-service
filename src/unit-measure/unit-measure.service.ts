@@ -10,7 +10,7 @@ import { User } from 'src/user/entities/user.entity';
 export class UnitMeasureService {
   constructor(
     @InjectRepository(UnitMeasure)
-    private unitMeasureRepository: Repository<UnitMeasure>,
+    private readonly unitMeasureRepository: Repository<UnitMeasure>,
   ) {}
 
   async findAll(): Promise<UnitMeasure[]> {

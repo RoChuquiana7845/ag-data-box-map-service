@@ -12,7 +12,7 @@ import { Sample } from 'src/sample/entities/sample.entity';
 export class PixelSampleService {
   constructor(
     @InjectRepository(PixelSample)
-    private pixelSampleRepository: Repository<PixelSample>,
+    private readonly pixelSampleRepository: Repository<PixelSample>,
   ) {}
 
   async findAll(): Promise<PixelSample[]> {

@@ -10,7 +10,7 @@ import { User } from 'src/user/entities/user.entity';
 export class ProjectService {
   constructor(
     @InjectRepository(Project)
-    private projectRepository: Repository<Project>,
+    private readonly projectRepository: Repository<Project>,
   ) {}
 
   async findAll(): Promise<Project[]> {

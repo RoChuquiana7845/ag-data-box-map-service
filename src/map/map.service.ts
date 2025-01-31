@@ -13,7 +13,7 @@ import { Area } from 'src/area/entities/area.entity';
 export class MapService {
   constructor(
     @InjectRepository(Map)
-    private mapRepository: Repository<Map>,
+    private readonly mapRepository: Repository<Map>,
   ) {}
 
   async findAll(): Promise<Map[]> {

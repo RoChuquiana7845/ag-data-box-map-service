@@ -10,7 +10,7 @@ import { User } from 'src/user/entities/user.entity';
 export class OrganizationService {
   constructor(
     @InjectRepository(Organization)
-    private organizationRepository: Repository<Organization>,
+    private readonly organizationRepository: Repository<Organization>,
   ) {}
 
   async findAll(): Promise<Organization[]> {

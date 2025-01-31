@@ -12,7 +12,7 @@ import { Map } from 'src/map/entities/map.entity';
 export class PixelMapService {
   constructor(
     @InjectRepository(PixelMap)
-    private pixelMapRepository: Repository<PixelMap>,
+    private readonly pixelMapRepository: Repository<PixelMap>,
   ) {}
 
   async findAll(): Promise<PixelMap[]> {
