@@ -13,7 +13,7 @@ import { Organization } from 'src/organization/entities/organization.entity';
 export class ClassificationService {
   constructor(
     @InjectRepository(Classification)
-    private classificationRepository: Repository<Classification>,
+    private readonly classificationRepository: Repository<Classification>,
   ) {}
 
   async findAll(): Promise<Classification[]> {

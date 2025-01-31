@@ -13,7 +13,7 @@ import { User } from 'src/user/entities/user.entity';
 export class ManagementRegionService {
   constructor(
     @InjectRepository(ManagementRegion)
-    private managementRegionRepository: Repository<ManagementRegion>,
+    private readonly managementRegionRepository: Repository<ManagementRegion>,
   ) {}
 
   async findAll(): Promise<ManagementRegion[]> {

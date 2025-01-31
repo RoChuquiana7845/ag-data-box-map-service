@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   async validate(
     payload: JwtPayload,
   ): Promise<{ userId: string; email: string; role: string }> {
-    if (!payload || !payload.sub) {
+    if (!payload?.sub) {
       throw new UnauthorizedException('Invalid token');
     }
 

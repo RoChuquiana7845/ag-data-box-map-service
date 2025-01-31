@@ -4,12 +4,13 @@ import { Repository } from 'typeorm';
 import { Attribute } from './entities/attribute.entity';
 import { CreateAttributeDto } from './dto/create-attribute.dto';
 import { UpdateAttributeDto } from './dto/update-attribute.dto';
+import { UnitMeasure } from 'src/unit-measure/entities/unit-measure.entity';
 
 @Injectable()
 export class AttributeService {
   constructor(
     @InjectRepository(Attribute)
-    private attributeRepository: Repository<Attribute>,
+    private readonly attributeRepository: Repository<Attribute>,
   ) {}
 
   async findAll(): Promise<Attribute[]> {
@@ -30,8 +31,8 @@ export class AttributeService {
     const attribute = this.attributeRepository.create({
       ...createAttributeDto,
       unit: createAttributeDto.unit
-        ? ({ id: createAttributeDto.unit } as any)
-        : null,
+        ? ({ id: createAttributeDto.unit } as UnitMeasure)
+        : undefined,
     });
 
     await this.attributeRepository.save(attribute);

@@ -11,8 +11,8 @@ import { User } from 'src/auth/entities/user.entity';
 export class AreaService {
   constructor(
     @InjectRepository(Area)
-    private areaRepository: Repository<Area>,
-    private datasource: DataSource,
+    private readonly areaRepository: Repository<Area>,
+    private readonly datasource: DataSource,
   ) {}
 
   async findAll(): Promise<Area[]> {

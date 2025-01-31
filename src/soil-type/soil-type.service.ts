@@ -10,7 +10,7 @@ import { User } from 'src/user/entities/user.entity';
 export class SoilTypeService {
   constructor(
     @InjectRepository(SoilType)
-    private soilTypeRepository: Repository<SoilType>,
+    private readonly soilTypeRepository: Repository<SoilType>,
   ) {}
 
   async findAll(): Promise<SoilType[]> {

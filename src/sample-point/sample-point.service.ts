@@ -12,7 +12,7 @@ import { SampleGrid } from 'src/sample-grid/entities/sample-grid.entity';
 export class SamplePointService {
   constructor(
     @InjectRepository(SamplePoint)
-    private samplePointRepository: Repository<SamplePoint>,
+    private readonly samplePointRepository: Repository<SamplePoint>,
   ) {}
 
   async findAll(): Promise<SamplePoint[]> {
