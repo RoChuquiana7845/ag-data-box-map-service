@@ -4,6 +4,7 @@ import {
   Column,
   BeforeInsert,
   Unique,
+  BeforeUpdate,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
@@ -26,15 +27,13 @@ export class User {
   role: string;
 
   @BeforeInsert()
+  @BeforeUpdate()
   async hashPassword(): Promise<void> {
-    let salt: string;
-    let hashedPassword: string;
-
     try {
-      salt = await bcrypt.genSalt(10);
-      hashedPassword = await bcrypt.hash(this.password, salt);
+      if (!this.password || this.password.startsWith('$2b$')) return;
 
-      this.password = hashedPassword;
+      const salt = await bcrypt.genSalt(10);
+      this.password = await bcrypt.hash(this.password, salt);
     } catch (err: unknown) {
       throw new Error(
         `Error al hashear la contraseña: ${(err as Error).message}`,

@@ -13,7 +13,7 @@ import { User } from 'src/user/entities/user.entity';
 export class SampleService {
   constructor(
     @InjectRepository(Sample)
-    private sampleRepository: Repository<Sample>,
+    private readonly sampleRepository: Repository<Sample>,
   ) {}
 
   async findAll(): Promise<Sample[]> {
