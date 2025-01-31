@@ -56,9 +56,11 @@ $ npm run test:cov
 
 ## Proyecto setup [Docker]
 
-Dockerized NestJS backend for the Salinas Clinic project.
-
 ### 🧑‍💻 Developing
+
+Dockerized NestJS backend for the AgDataBox Map project.
+
+Este proyecto requiere que primero se ejecute el repositorio Ag-Data-Box-Map-DB antes de continuar con la configuración.
 
 First, create the `.env` file by copying the example:
 
