@@ -88,7 +88,7 @@ scripts\down.bat
 This project use OpenApi, you can see the Endpoints with this url:
 
 ```url
-http://localhost:3005/api#/
+http://localhost:3005/api/
 ```
 ## Deployment
 
