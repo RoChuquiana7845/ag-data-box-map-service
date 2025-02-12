@@ -7,11 +7,12 @@ import {
   Request,
   HttpException,
   HttpStatus,
+  UnauthorizedException,
+  HttpCode,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { UserPayload } from './interfaces/user-play-load.interface';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import {
   ApiBearerAuth,
@@ -19,6 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { LoginDto } from './dto/login.dto';
 import { UserPayloadDto } from './dto/user-payload.dto';
 
 @ApiTags('Auth')
@@ -49,9 +51,16 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Credenciales incorrectas' })
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  login(@Request() req: { user: UserPayloadDto }) {
+  async login(@Body() loginDto: LoginDto) {
     try {
-      return this.authService.login(req.user);
+      const user = await this.authService.validateUser(
+        loginDto.email,
+        loginDto.password,
+      );
+      if (!user) {
+        throw new UnauthorizedException('Correo o contraseña incorrectos');
+      }
+      return this.authService.login(user);
     } catch (error) {
       throw new HttpException(
         (error as Error).message,
@@ -65,14 +74,25 @@ export class AuthController {
   @ApiResponse({ status: 200, description: 'Devuelve el perfil del usuario' })
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req: { user: UserPayload }) {
+  getProfile(@Request() req: { user: UserPayloadDto }) {
     try {
-      return req.user;
+      return this.authService.login(req.user);
     } catch (error) {
       throw new HttpException(
         'Error al obtener perfil:' + (error as Error).message,
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Cerrar sesión (Logout)' })
+  @ApiResponse({ status: 200, description: 'Cierre de sesión exitoso' })
+  @ApiResponse({ status: 401, description: 'No autorizado' })
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(200)
+  @Get('logout')
+  logout() {
+    return { success: true };
   }
 }

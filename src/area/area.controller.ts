@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AreaService } from './area.service';
 import { CreateAreaDto } from './dto/create-area.dto';
@@ -23,8 +24,8 @@ export class AreaController {
   constructor(private readonly areaService: AreaService) {}
 
   @Get()
-  findAll() {
-    return this.areaService.findAll();
+  findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.areaService.findAll(Number(page), Number(limit));
   }
 
   @Get(':id')

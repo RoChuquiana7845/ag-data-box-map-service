@@ -3,11 +3,9 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
-  OneToMany,
+  JoinColumn,
 } from 'typeorm';
-import { Geometry } from 'geojson';
-import { User } from '../../user/entities/user.entity';
-import { Sample } from '../../sample/entities/sample.entity';
+import { Project } from 'src/project/entities/project.entity';
 
 @Entity('areas')
 export class Area {
@@ -23,21 +21,16 @@ export class Area {
   @Column({ type: 'float' })
   size: number;
 
-  @Column({ type: 'uuid', nullable: true })
-  soil_type: string;
-
-  @Column({ type: 'uuid', nullable: true })
+  @ManyToOne(() => Project, { nullable: false, onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'projectId' })
   project: string;
 
-  @Column({ type: 'geometry', spatialFeatureType: 'Polygon', srid: 4326 })
-  geom: Geometry;
-
-  @OneToMany(() => Sample, (sample) => sample.area)
-  samples: Sample[];
+  @Column({ type: 'jsonb' })
+  location: {
+    address: string;
+    coordinates: { lat: number; lng: number };
+  };
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   registration_date: Date;
-
-  @ManyToOne(() => User, (user) => user.id, { nullable: false })
-  user: User;
 }

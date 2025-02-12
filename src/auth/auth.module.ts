@@ -18,7 +18,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'default-secret-key',
+        secret: configService.get<string>('JWT_SECRET') ?? 'default-secret-key',
         signOptions: { expiresIn: '1h' },
       }),
     }),

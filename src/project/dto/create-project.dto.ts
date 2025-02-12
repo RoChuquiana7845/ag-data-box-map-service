@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProjectDto {
@@ -14,12 +14,4 @@ export class CreateProjectDto {
   @IsNotEmpty()
   @IsString()
   description: string;
-
-  @ApiProperty({
-    example: 'uuid-user',
-    description: 'ID del usuario creador del proyecto',
-  })
-  @IsNotEmpty()
-  @IsUUID()
-  user: string;
 }

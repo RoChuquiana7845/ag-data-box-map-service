@@ -24,7 +24,7 @@ export class User {
   password: string;
 
   @Column({ default: 'user' })
-  role: string;
+  role: 'User' | 'Analyst' | 'Admin';
 
   @BeforeInsert()
   @BeforeUpdate()

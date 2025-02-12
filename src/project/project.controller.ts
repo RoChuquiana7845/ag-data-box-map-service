@@ -7,7 +7,8 @@ import {
   Param,
   Delete,
   UseGuards,
-  SetMetadata,
+  Request,
+  Query,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -16,6 +17,13 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 
+interface AuthenticatedRequest extends Request {
+  user: {
+    userId: string;
+    role: 'User' | 'Analyst' | 'Admin';
+  };
+}
+
 @ApiTags('Projects')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -23,31 +31,30 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.projectService.findAll();
+  findAll(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.projectService.findAll(Number(page), Number(limit));
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.projectService.findOne(id);
   }
 
-  @SetMetadata('role', 'admin')
   @Post()
-  create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectService.create(createProjectDto);
+  create(
+    @Request() req: AuthenticatedRequest,
+    @Body() createProjectDto: CreateProjectDto,
+  ) {
+    console.warn('this is value of the req', req.user.userId);
+    return this.projectService.create(createProjectDto, req.user.userId);
   }
 
-  @SetMetadata('role', 'admin')
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(id, updateProjectDto);
   }
 
-  @SetMetadata('role', 'admin')
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.projectService.remove(id);
