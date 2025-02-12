@@ -39,8 +39,16 @@ export class AuthService {
       const token = this.jwtService.sign(payload);
 
       return {
-        message: 'Usuario registrado correctamente',
-        access_token: token,
+        success: true,
+        data: {
+          access_token: token,
+          user: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          },
+        },
       };
     } catch (error) {
       throw new InternalServerErrorException(
@@ -52,7 +60,19 @@ export class AuthService {
   login(user: UserPayloadDto) {
     try {
       const payload = { sub: user.id, email: user.email, role: user.role };
-      return { access_token: this.jwtService.sign(payload) };
+      const token = this.jwtService.sign(payload);
+      return {
+        success: true,
+        data: {
+          access_token: token,
+          user: {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          },
+        },
+      };
     } catch (error) {
       throw new InternalServerErrorException('Error al iniciar sesión' + error);
     }

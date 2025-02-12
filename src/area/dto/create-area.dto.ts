@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, IsNumber, IsUUID } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsUUID,
+  IsObject,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAreaDto {
@@ -21,29 +27,20 @@ export class CreateAreaDto {
   size: number;
 
   @ApiProperty({
-    example: 'POLYGON((-75.1 6.2, -75.2 6.2, -75.2 6.3, -75.1 6.3, -75.1 6.2))',
-    description: 'Coordenadas del polígono en WKT',
-  })
-  @IsNotEmpty()
-  @IsString()
-  geom: string; // Se enviará como WKT (Well-Known Text)
-
-  @ApiProperty({
-    example: 'uuid-soiltype',
-    description: 'ID del tipo de suelo',
-  })
-  @IsUUID()
-  soil_type?: string;
-
-  @ApiProperty({
-    example: 'uuid-project',
+    example: '46f51015-82f7-4c3e-ad24-cada101c5fb9',
     description: 'ID del proyecto asociado',
   })
   @IsUUID()
-  project?: string;
+  projectId: string;
 
-  @ApiProperty({ example: 'uuid-user', description: 'ID del usuario creador' })
+  @ApiProperty({
+    example: { address: 'Calle 123', coordinates: { lat: -75.2, lng: 6.3 } },
+    description: 'Ubicación del área',
+  })
   @IsNotEmpty()
-  @IsUUID()
-  user: string;
+  @IsObject()
+  location: {
+    address: string;
+    coordinates: { lat: number; lng: number };
+  };
 }

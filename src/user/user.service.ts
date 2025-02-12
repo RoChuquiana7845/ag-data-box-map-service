@@ -13,8 +13,21 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
+  async findAll(page: number = 1, limit: number = 10) {
+    const [users, total] = await this.userRepository.findAndCount({
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+
+    return {
+      success: true,
+      data: users,
+      pagination: {
+        total,
+        page,
+        limit,
+      },
+    };
   }
 
   async findOne(id: string): Promise<User> {
@@ -41,8 +54,8 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async remove(id: string): Promise<void> {
-    const user = await this.findOne(id);
-    await this.userRepository.remove(user);
+  async remove(id: string) {
+    await this.userRepository.update(id, { status: 'inactive' });
+    return { success: true };
   }
 }

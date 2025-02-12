@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   SetMetadata,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -25,11 +26,10 @@ export class UserController {
 
   @SetMetadata('roles', ['admin'])
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+    return this.userService.findAll(Number(page), Number(limit));
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
