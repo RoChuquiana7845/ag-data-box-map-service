@@ -56,9 +56,11 @@ $ npm run test:cov
 
 ## Proyecto setup [Docker]
 
-Dockerized NestJS backend for the Salinas Clinic project.
-
 ### 🧑‍💻 Developing
+
+Dockerized NestJS backend for the AgDataBox Map project.
+
+Este proyecto requiere que primero se ejecute el repositorio Ag-Data-Box-Map-DB antes de continuar con la configuración.
 
 First, create the `.env` file by copying the example:
 
@@ -83,7 +85,11 @@ Stop the service:
 ```bash
 scripts\down.bat
 ```
+This project use OpenApi, you can see the Endpoints with this url:
 
+```url
+http://localhost:3005/api/
+```
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
